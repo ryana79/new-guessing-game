@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" id="theme-style" href="{{ url_for('static', filename='css/light.css') }}">
+</head>
+
+<body>
+    <button onclick="toggleTheme()">Toggle Dark Mode</button>
+    <div class="container mt-5 position-relative">
+        <a href="/" class="btn btn-secondary position-absolute top-0 end-0 m-3">Main Menu</a>
+        <h1>What is this?</h1>
+        <img src="{{ src }}" alt="Quiz Image" class="img-fluid mb-3">
+        <form action="" method="post">
+            <input type="text" name="guess" class="form-control mb-3" placeholder="Your answer" required>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% if message %}
+        <p class="alert alert-info">{{ message }}</p>
+        {% endif %}
+        <a href="/visual_quiz" class="btn btn-info mt-3">Try another image</a>
+    </div>
+    <script>
+        window.onload = function () {
+            var theme = localStorage.getItem('theme');
+            var themeLink = document.getElementById("theme-style");
+            if (theme) {
+                themeLink.href = theme;
+            }
+        };
+
+        function toggleTheme() {
+            var themeLink = document.getElementById("theme-style");
+            if (themeLink.getAttribute("href") == "{{ url_for('static', filename='css/light.css') }}") {
+                themeLink.href = "{{ url_for('static', filename='css/dark.css') }}";
+                localStorage.setItem('theme', "{{ url_for('static', filename='css/dark.css') }}");
+            } else {
+                themeLink.href = "{{ url_for('static', filename='css/light.css') }}";
+                localStorage.setItem('theme', "{{ url_for('static', filename='css/light.css') }}");
+            }
+        }
+    </script>
+</body>
+
+</html>
